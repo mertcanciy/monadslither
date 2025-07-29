@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { blockchainService } from '../services/blockchainService';
 
-// Import images
-import cutlandak2Image from '../../public/images/cutlandak2.png';
-import monadLogoImage from '../../public/images/monad-logo.png';
-import snakeNadImage from '../../public/images/snakeNad.png';
-
 export default function OnboardingPage({ onStartGame }) {
   const [nickname, setNickname] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -188,7 +183,7 @@ export default function OnboardingPage({ onStartGame }) {
         {Array.from({ length: 8 }).map((_, i) => (
           <img
             key={i}
-            src={cutlandak2Image}
+            src="/images/cutlandak2.png"
             alt="Flying Meme"
             style={{
               position: 'absolute',
@@ -329,7 +324,7 @@ export default function OnboardingPage({ onStartGame }) {
           alignItems: 'center'
         }}>
           <img 
-            src={monadLogoImage} 
+            src="/images/monad-logo.png" 
             alt="Monad Logo"
             style={{
               width: '120px',
@@ -348,7 +343,7 @@ export default function OnboardingPage({ onStartGame }) {
         }}>
           {/* Left Snake */}
           <img 
-            src={snakeNadImage} 
+            src="/images/snakeNad.png" 
             alt="Sad Frog Snake"
             style={{
               width: '120px',
@@ -376,7 +371,7 @@ export default function OnboardingPage({ onStartGame }) {
           
           {/* Right Snake */}
           <img 
-            src={snakeNadImage} 
+            src="/images/snakeNad.png" 
             alt="Sad Frog Snake"
             style={{
               width: '120px',
