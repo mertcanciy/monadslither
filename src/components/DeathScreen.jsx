@@ -33,7 +33,7 @@ export default function DeathScreen({ onRejoin, deathData }) {
       left: 0,
       width: '100vw',
       height: '100vh',
-      background: `url('/images/cutlandak2.png') center center / cover`,
+              background: `url('${process.env.PUBLIC_URL}/images/cutlandak2.png') center center / cover`,
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
