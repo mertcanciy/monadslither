@@ -12,9 +12,13 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
     "compile": "hardhat compile",
     "deploy:testnet": "hardhat run scripts/deploy.js --network monadTestnet",
-    "verify:testnet": "hardhat verify --network monadTestnet"
+    "verify:testnet": "hardhat verify --network monadTestnet",
+    "vercel-build": "npm install --legacy-peer-deps && npm run build"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-chai-matchers": "^2.1.0",
