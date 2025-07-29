@@ -193,7 +193,7 @@ const GameBoard = memo(function GameBoard({ gameState }) {
           return (
             <image
               key={`monad-bg-${i}`}
-              href={`${process.env.PUBLIC_URL}/images/monad-logo.png`}
+              href={`${process.env.PUBLIC_URL || ''}/images/monad-logo.png`}
               x={col * spacing + spacing / 2}
               y={row * spacing + spacing / 2}
               width={logoSize}
@@ -383,7 +383,7 @@ const GameBoard = memo(function GameBoard({ gameState }) {
               
               {/* Custom snake head image - rendered on top */}
               <image
-                href={`${process.env.PUBLIC_URL}/images/snakeHead.png`}
+                href={`${process.env.PUBLIC_URL || ''}/images/snakeHead.png`}
                 x={snake.segments[0].x - 15}
                 y={snake.segments[0].y - 30}
                 width={30}
