@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="MonadSlither - Multiplayer Snake Game" />
+    <title>MonadSlither</title>
+    
+    <!-- Multisynq Client Library - Required for the game to work -->
+    <script src="https://cdn.jsdelivr.net/npm/@multisynq/client@latest/bundled/multisynq-client.min.js"></script>
+    <script>
+      // Check if Multisynq loaded properly
+      window.addEventListener('load', function() {
+        if (!window.Multisynq) {
+          console.error('Multisynq library failed to load!');
+          document.body.innerHTML = '<div style="padding: 20px; text-align: center;"><h2>Error</h2><p>Failed to load Multisynq library. Please check your internet connection and refresh the page.</p></div>';
+        } else {
+          console.log('Multisynq library loaded successfully:', window.Multisynq);
+        }
+      });
+    </script>
+    <style>
+      /* Full screen styles */
+      html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      
+      #root {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+  </body>
+</html> 
