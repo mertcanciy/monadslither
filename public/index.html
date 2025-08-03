@@ -5,38 +5,100 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover" />
     <meta name="theme-color" content="#000000" />
     <meta name="description" content="MonadSlither - Multiplayer Snake Game" />
+
     <title>MonadSlither</title>
     
     <!-- Multisynq Client Library - Required for the game to work -->
-    <script src="https://cdn.jsdelivr.net/npm/@multisynq/client@latest/bundled/multisynq-client.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@multisynq/client@latest/bundled/multisynq-client.min.js" crossorigin="anonymous" onerror="loadMultisynqFallback()"></script>
+    <script>
+      // Fallback function to try alternative CDN if primary fails
+      function loadMultisynqFallback() {
+        console.log('Primary Multisynq script failed to load, trying fallback...');
+        const script = document.createElement('script');
+        script.src = 'https://unpkg.com/@multisynq/client@latest/bundled/multisynq-client.min.js';
+        script.crossOrigin = 'anonymous';
+        script.onload = function() {
+          console.log('Multisynq loaded successfully from fallback CDN');
+        };
+        script.onerror = function() {
+          console.error('Both primary and fallback Multisynq scripts failed to load');
+        };
+        document.head.appendChild(script);
+      }
+    </script>
     <script>
       // Check if Multisynq loaded properly
       window.addEventListener('load', function() {
-        if (!window.Multisynq) {
-          console.error('Multisynq library failed to load!');
-          document.body.innerHTML = '<div style="padding: 20px; text-align: center;"><h2>Error</h2><p>Failed to load Multisynq library. Please check your internet connection and refresh the page.</p></div>';
-        } else {
-          console.log('Multisynq library loaded successfully:', window.Multisynq);
-        }
+        setTimeout(() => {
+          if (!window.Multisynq) {
+            console.error('Multisynq library failed to load!');
+            document.body.innerHTML = '<div style="padding: 20px; text-align: center; color: white; background: #1a1a1a; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;"><h2>Error</h2><p>Failed to load Multisynq library. This might be due to:</p><ul style="text-align: left; max-width: 400px;"><li>Content Security Policy blocking the script</li><li>Network connectivity issues</li><li>CDN availability issues</li></ul><p>Please check your internet connection and refresh the page.</p><button onclick="window.location.reload()" style="margin-top: 20px; padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Refresh Page</button></div>';
+          } else {
+            console.log('Multisynq library loaded successfully:', window.Multisynq);
+          }
+        }, 2000); // Wait 2 seconds to ensure script has time to load
       });
       
-      // Fullscreen handling
+      // Fullscreen handling - Production ready with null checks
       function ensureFullscreen() {
-        // Prevent any scrolling
-        document.documentElement.style.overflow = 'hidden';
-        document.body.style.overflow = 'hidden';
-        
-        // Ensure the game takes full viewport
-        const root = document.getElementById('root');
-        if (root) {
-          root.style.position = 'fixed';
-          root.style.top = '0';
-          root.style.left = '0';
-          root.style.right = '0';
-          root.style.bottom = '0';
-          root.style.width = '100vw';
-          root.style.height = '100vh';
-          root.style.overflow = 'hidden';
+        try {
+          // Prevent any scrolling
+          if (document.documentElement) {
+            document.documentElement.style.overflow = 'hidden';
+          }
+          if (document.body) {
+            document.body.style.overflow = 'hidden';
+          }
+          
+          // Ensure the game takes full viewport
+          const root = document.getElementById('root');
+          if (root) {
+            root.style.position = 'fixed';
+            root.style.top = '0';
+            root.style.left = '0';
+            root.style.right = '0';
+            root.style.bottom = '0';
+            root.style.width = '100vw';
+            root.style.height = '100vh';
+            root.style.overflow = 'hidden';
+            root.style.margin = '0';
+            root.style.padding = '0';
+          }
+          
+          // Force all game containers to fullscreen
+          const gameContainers = document.querySelectorAll('.App, [class*="App"], .game-container, [data-testid="game-container"]');
+          gameContainers.forEach(container => {
+            if (container && container.style) {
+              container.style.position = 'fixed';
+              container.style.top = '0';
+              container.style.left = '0';
+              container.style.right = '0';
+              container.style.bottom = '0';
+              container.style.width = '100vw';
+              container.style.height = '100vh';
+              container.style.overflow = 'hidden';
+              container.style.margin = '0';
+              container.style.padding = '0';
+            }
+          });
+          
+          // Force SVG elements to full viewport
+          const svgElements = document.querySelectorAll('svg');
+          svgElements.forEach(svg => {
+            if (svg && svg.style) {
+              svg.style.position = 'absolute';
+              svg.style.top = '0';
+              svg.style.left = '0';
+              svg.style.right = '0';
+              svg.style.bottom = '0';
+              svg.style.width = '100vw';
+              svg.style.height = '100vh';
+              svg.style.margin = '0';
+              svg.style.padding = '0';
+            }
+          });
+        } catch (error) {
+          console.warn('Fullscreen function error:', error);
         }
       }
       
@@ -44,79 +106,122 @@
       window.addEventListener('load', ensureFullscreen);
       window.addEventListener('resize', ensureFullscreen);
       window.addEventListener('orientationchange', ensureFullscreen);
+      
+      // Wait for DOM to be ready before executing
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', ensureFullscreen);
+      } else {
+        ensureFullscreen();
+      }
+      
+      // Delayed execution to handle React mounting
+      setTimeout(ensureFullscreen, 100);
+      setTimeout(ensureFullscreen, 500);
+      setTimeout(ensureFullscreen, 1000);
+      
+      // Periodic checking for production builds
+      setInterval(ensureFullscreen, 2000);
     </script>
     <style>
-      /* Full screen styles */
+      /* Full screen styles - Production ready with !important */
       html, body {
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        overflow: hidden !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
       }
       
       #root {
-        width: 100%;
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        overflow: hidden;
+        width: 100% !important;
+        height: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        overflow: hidden !important;
       }
       
       /* Ensure full viewport coverage */
       * {
-        box-sizing: border-box;
+        box-sizing: border-box !important;
       }
       
       /* Prevent any scrolling */
       html {
-        overflow: hidden;
-        height: 100vh;
-        width: 100vw;
+        overflow: hidden !important;
+        height: 100vh !important;
+        width: 100vw !important;
       }
       
       body {
-        overflow: hidden;
-        height: 100vh;
-        width: 100vw;
-        position: fixed;
+        overflow: hidden !important;
+        height: 100vh !important;
+        width: 100vw !important;
+        position: fixed !important;
+      }
+      
+      /* Force fullscreen for all game containers */
+      .game-container, [data-testid="game-container"] {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        overflow: hidden !important;
+        margin: 0 !important;
+        padding: 0 !important;
       }
       
       /* Mobile browser specific fixes */
       @media screen and (max-width: 768px) {
         html, body {
-          height: 100vh;
-          width: 100vw;
-          position: fixed;
-          overflow: hidden;
+          height: 100vh !important;
+          width: 100vw !important;
+          position: fixed !important;
+          overflow: hidden !important;
         }
         
         #root {
-          height: 100vh;
-          width: 100vw;
-          position: fixed;
-          overflow: hidden;
+          height: 100vh !important;
+          width: 100vw !important;
+          position: fixed !important;
+          overflow: hidden !important;
         }
       }
       
       /* iOS Safari specific fixes */
       @supports (-webkit-touch-callout: none) {
         html, body {
-          height: 100vh;
-          width: 100vw;
-          position: fixed;
-          overflow: hidden;
+          height: 100vh !important;
+          width: 100vw !important;
+          position: fixed !important;
+          overflow: hidden !important;
         }
+      }
+      
+      /* Production build specific overrides */
+      .App, [class*="App"] {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        overflow: hidden !important;
+        margin: 0 !important;
+        padding: 0 !important;
       }
     </style>
   </head>

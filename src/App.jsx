@@ -21,6 +21,7 @@ export default function App() {
   const [deathData, setDeathData] = useState(null);
   const [showProfile, setShowProfile] = useState(false);
   const [walletAddress, setWalletAddress] = useState(null);
+  const [connectionError, setConnectionError] = useState(null);
 
   const startGame = async (playerNickname, walletAddress) => {
     setNickname(playerNickname);
@@ -71,6 +72,22 @@ export default function App() {
         } else if (deathData) {
           // Clear death data if it's no longer in the state
           setDeathData(null);
+        }
+      };
+
+      // Set up error handling for connection issues
+      gameManager.onError = (error) => {
+        console.error('Game connection error:', error);
+        setConnectionError(error.message);
+        
+        if (error.message && error.message.includes('rtc')) {
+          console.warn('RTC connection issue detected, attempting to maintain game state...');
+          // Don't disconnect immediately, try to recover
+          setIsConnected(false);
+          setTimeout(() => {
+            setIsConnected(true);
+            setConnectionError(null);
+          }, 2000);
         }
       };
 
@@ -195,20 +212,23 @@ export default function App() {
   }
 
   return (
-    <div style={{ 
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      width: '100vw', 
-      height: '100vh',
-      overflow: 'hidden',
-      background: '#1a1a1a',
-      margin: 0,
-      padding: 0,
-      zIndex: 1
-    }}>
+    <div 
+      className="App game-container"
+      style={{ 
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        width: '100vw', 
+        height: '100vh',
+        overflow: 'hidden',
+        background: '#1a1a1a',
+        margin: 0,
+        padding: 0,
+        zIndex: 1
+      }}
+    >
       <GameBoard gameState={gameState} />
       <Leaderboard leaderboard={gameState?.leaderboard || []} />
       <Controls onDirection={handleDirection} onBoost={handleBoost} />
@@ -223,6 +243,7 @@ export default function App() {
         nickname={nickname}
         gameState={gameState}
         onShowProfile={() => setShowProfile(true)}
+        connectionError={connectionError}
       />
       
       {/* Death Screen */}

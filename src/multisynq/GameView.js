@@ -1,5 +1,10 @@
 // Simple view following Multisynq pattern
-class GameView extends Multisynq.View {
+class GameView extends (window.Multisynq?.View || class {
+  constructor() {
+    console.error('Multisynq.View not available - GameView cannot be instantiated');
+    throw new Error('Multisynq library not loaded');
+  }
+}) {
   constructor(model) {
     super(model);
     this.model = model;

@@ -14,6 +14,10 @@ export class GameSessionManager {
       console.log('GameSessionManager: Starting session join with options:', options);
       
       // Use Multisynq.Session.join directly following the Hello World pattern
+      if (!window.Multisynq?.Session?.join) {
+        throw new Error('Multisynq library not loaded - Session.join not available');
+      }
+      
       this.session = await Multisynq.Session.join({
         apiKey: options.apiKey || 'YOUR_API_KEY_HERE',
         appId: 'com.monadslither.game',
@@ -27,6 +31,23 @@ export class GameSessionManager {
         walletAddress: options.walletAddress, // Pass wallet address for blockchain recording
         ...options
       });
+
+      // Add error handling for RTC connection issues
+      if (this.session && this.session.on) {
+        this.session.on('error', (error) => {
+          console.error('Multisynq session error:', error);
+          if (this.onError) {
+            this.onError(error);
+          }
+        });
+        
+        this.session.on('disconnect', () => {
+          console.warn('Multisynq session disconnected');
+          if (this.onError) {
+            this.onError(new Error('Session disconnected'));
+          }
+        });
+      }
 
       console.log('GameSessionManager: Session created:', this.session);
       

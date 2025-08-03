@@ -1,5 +1,10 @@
 // Simple model following Multisynq pattern
-class GameModel extends Multisynq.Model {
+class GameModel extends (window.Multisynq?.Model || class {
+  constructor() {
+    console.error('Multisynq.Model not available - GameModel cannot be instantiated');
+    throw new Error('Multisynq library not loaded');
+  }
+}) {
   init() {
     console.log('GameModel: init() called');
     

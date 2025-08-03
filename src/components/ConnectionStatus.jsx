@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function ConnectionStatus({ isConnected, playerId, playerCount, nickname, gameState, onShowProfile }) {
+export default function ConnectionStatus({ isConnected, playerId, playerCount, nickname, gameState, onShowProfile, connectionError }) {
   return (
     <div style={{
       position: 'absolute',
@@ -20,6 +20,16 @@ export default function ConnectionStatus({ isConnected, playerId, playerCount, n
         <span style={{ color: isConnected ? '#4CAF50' : '#FF9800' }}>
           ● {isConnected ? 'Connected' : 'Connecting...'}
         </span>
+        {connectionError && (
+          <div style={{ 
+            color: '#FF5722', 
+            fontSize: '12px', 
+            marginTop: '5px',
+            fontStyle: 'italic'
+          }}>
+            ⚠️ {connectionError}
+          </div>
+        )}
       </div>
       
       {nickname && (

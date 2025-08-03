@@ -1,28 +1,64 @@
 import React, { useState, useEffect, memo } from 'react';
 
 const GameBoard = memo(function GameBoard({ gameState }) {
-  const [dimensions, setDimensions] = useState({ width: 1000, height: 1000 });
+  // Always use full viewport dimensions, regardless of RTC connection status
+  const [dimensions, setDimensions] = useState({ 
+    width: window.innerWidth || 1000, 
+    height: window.innerHeight || 1000 
+  });
 
-  // Update dimensions when window resizes
+  // Update dimensions when window resizes and ensure full viewport
   useEffect(() => {
     const updateDimensions = () => {
+      const newWidth = window.innerWidth || document.documentElement.clientWidth || 1000;
+      const newHeight = window.innerHeight || document.documentElement.clientHeight || 1000;
+      
       setDimensions({
-        width: window.innerWidth,
-        height: window.innerHeight
+        width: newWidth,
+        height: newHeight
       });
     };
 
     updateDimensions();
     window.addEventListener('resize', updateDimensions);
-    return () => window.removeEventListener('resize', updateDimensions);
+    window.addEventListener('orientationchange', updateDimensions);
+    
+    // Force update after a short delay to handle any RTC fallback issues
+    setTimeout(updateDimensions, 100);
+    setTimeout(updateDimensions, 500);
+    
+    // Listen for RTC errors and force full viewport
+    const handleRtcError = () => {
+      console.warn('RTC error detected, forcing full viewport dimensions');
+      setDimensions({
+        width: window.innerWidth || document.documentElement.clientWidth || 1000,
+        height: window.innerHeight || document.documentElement.clientHeight || 1000
+      });
+    };
+    
+    // Listen for console errors that might indicate RTC issues
+    const originalError = console.error;
+    console.error = (...args) => {
+      originalError.apply(console, args);
+      if (args[0] && typeof args[0] === 'string' && args[0].includes('rtc')) {
+        handleRtcError();
+      }
+    };
+    
+    return () => {
+      window.removeEventListener('resize', updateDimensions);
+      window.removeEventListener('orientationchange', updateDimensions);
+      console.error = originalError;
+    };
   }, []);
 
   // If we have a gameState but no snakes/orbs, show a waiting message
   if (gameState && (!gameState.snakes || Object.keys(gameState.snakes).length === 0)) {
     return (
       <svg 
-        width={dimensions.width} 
-        height={dimensions.height}
+        width="100%" 
+        height="100%"
+        viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
         style={{
           position: 'absolute',
           top: 0,
@@ -65,8 +101,9 @@ const GameBoard = memo(function GameBoard({ gameState }) {
   if (!gameState) {
     return (
       <svg 
-        width={dimensions.width} 
-        height={dimensions.height}
+        width="100%" 
+        height="100%"
+        viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
         style={{
           position: 'absolute',
           top: 0,
@@ -104,8 +141,9 @@ const GameBoard = memo(function GameBoard({ gameState }) {
 
   return (
     <svg 
-      width={dimensions.width} 
-      height={dimensions.height}
+      width="100%" 
+      height="100%"
+      viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
       style={{
         position: 'absolute',
         top: 0,

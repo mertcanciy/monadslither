@@ -1,25 +1,36 @@
 {
   "version": 2,
-  "routes": [
+  "headers": [
     {
-      "src": "/images/(.*)",
-      "dest": "/images/$1"
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://cdn.jsdelivr.net https://cdn.jsdelivr.net/npm/@multisynq/client@latest/bundled/multisynq-client.min.js https://cdn.jsdelivr.net/npm/@multisynq/client@latest https://unpkg.com; script-src-elem 'self' 'unsafe-eval' 'unsafe-inline' https://cdn.jsdelivr.net https://cdn.jsdelivr.net/npm/@multisynq/client@latest/bundled/multisynq-client.min.js https://cdn.jsdelivr.net/npm/@multisynq/client@latest https://unpkg.com; worker-src 'self' blob: data:; connect-src 'self' ws: wss: https://cdn.jsdelivr.net https://multisynq.io; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self' data:;"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/images/(.*)",
+      "destination": "/images/$1"
     },
     {
-      "src": "/static/(.*)",
-      "dest": "/static/$1"
+      "source": "/static/(.*)",
+      "destination": "/static/$1"
     },
     {
-      "src": "/favicon.ico",
-      "dest": "/favicon.ico"
+      "source": "/favicon.ico",
+      "destination": "/favicon.ico"
     },
     {
-      "src": "/manifest.json",
-      "dest": "/manifest.json"
+      "source": "/manifest.json",
+      "destination": "/manifest.json"
     },
     {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 } 
