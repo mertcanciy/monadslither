@@ -27,10 +27,13 @@ const GameBoard = memo(function GameBoard({ gameState }) {
           position: 'absolute',
           top: 0,
           left: 0,
+          right: 0,
+          bottom: 0,
           width: '100vw',
           height: '100vh',
           margin: 0,
-          padding: 0
+          padding: 0,
+          zIndex: 0
         }}
       >
         <defs>
@@ -68,10 +71,13 @@ const GameBoard = memo(function GameBoard({ gameState }) {
           position: 'absolute',
           top: 0,
           left: 0,
+          right: 0,
+          bottom: 0,
           width: '100vw',
           height: '100vh',
           margin: 0,
-          padding: 0
+          padding: 0,
+          zIndex: 0
         }}
       >
         <defs>
@@ -104,10 +110,13 @@ const GameBoard = memo(function GameBoard({ gameState }) {
         position: 'absolute',
         top: 0,
         left: 0,
+        right: 0,
+        bottom: 0,
         width: '100vw',
         height: '100vh',
         margin: 0,
-        padding: 0
+        padding: 0,
+        zIndex: 0
       }}
     >
       {/* Gradient background */}
@@ -223,7 +232,7 @@ const GameBoard = memo(function GameBoard({ gameState }) {
             r={orb.isMonadTeam ? 25 : (orb.value >= 6 ? 20 : 16)}
             fill={orb.isMonadTeam ? "url(#orbGlowHigh)" : (orb.value >= 8 ? "url(#orbGlowHigh)" : orb.value >= 5 ? "url(#orbGlowMedium)" : "url(#orbGlowLow)")}
             opacity="0.8"
-          />
+            />
           
           {/* Main orb circle - simplified */}
           <circle 
@@ -262,7 +271,7 @@ const GameBoard = memo(function GameBoard({ gameState }) {
             cy={orb.y - 3}
             r={orb.value >= 6 ? 4 : 3}
             fill="rgba(255, 255, 255, 0.8)"
-          />
+            />
           
           {/* Role name text */}
           <text

@@ -89,7 +89,7 @@ export default function OnboardingPage({ onStartGame }) {
               console.log('Successfully switched to Monad testnet');
             } else {
               console.log('Network switch may not have completed');
-            }
+        }
           } catch (error) {
             console.error('Failed to switch network:', error);
             alert('Failed to switch to Monad testnet. Please add it manually:\n\nNetwork Name: Monad Testnet\nRPC URL: https://testnet-rpc.monad.xyz\nChain ID: 10143\nCurrency: MON\nBlock Explorer: https://testnet.monadexplorer.com');
@@ -395,52 +395,52 @@ export default function OnboardingPage({ onStartGame }) {
           Multiplayer Snake Game
         </p>
         
-                    {/* Wallet Connection Section */}
-            {!walletConnected ? (
-              <div style={{
-                marginBottom: '30px',
-                textAlign: 'center'
-              }}>
-                <button
-                  onClick={handleConnectWallet}
-                  disabled={isConnectingWallet}
-                  style={{
-                    width: '350px',
-                    padding: '18px 25px',
-                    fontSize: '18px',
-                    fontWeight: 'bold',
-                    border: 'none',
-                    borderRadius: '30px',
-                    background: 'linear-gradient(135deg, #836EF9 0%, #200052 100%)',
-                    color: 'white',
-                    cursor: isConnectingWallet ? 'not-allowed' : 'pointer',
-                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
-                    transition: 'all 0.3s ease',
-                    textTransform: 'uppercase',
-                    letterSpacing: '1px',
-                    backdropFilter: 'blur(10px)'
-                  }}
-                  onMouseEnter={(e) => {
-                    if (!isConnectingWallet) {
-                      e.target.style.transform = 'translateY(-3px)';
-                      e.target.style.boxShadow = '0 12px 40px rgba(0, 0, 0, 0.3)';
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    e.target.style.transform = 'translateY(0)';
-                    e.target.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.2)';
-                  }}
-                >
-                  {isConnectingWallet ? 'Connecting Wallet...' : 'Connect Wallet'}
-                </button>
-                <p style={{
-                  fontSize: '14px',
-                  color: 'rgba(255, 255, 255, 0.7)',
-                  marginTop: '15px',
-                  textShadow: '0 2px 10px rgba(0, 0, 0, 0.3)'
-                }}>
-                  Connect your wallet to play MonadSlither
-                </p>
+        {/* Wallet Connection Section */}
+        {!walletConnected ? (
+          <div style={{
+            marginBottom: '30px',
+            textAlign: 'center'
+          }}>
+            <button
+              onClick={handleConnectWallet}
+              disabled={isConnectingWallet}
+              style={{
+                width: '350px',
+                padding: '18px 25px',
+                fontSize: '18px',
+                fontWeight: 'bold',
+                border: 'none',
+                borderRadius: '30px',
+                background: 'linear-gradient(135deg, #836EF9 0%, #200052 100%)',
+                color: 'white',
+                cursor: isConnectingWallet ? 'not-allowed' : 'pointer',
+                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
+                transition: 'all 0.3s ease',
+                textTransform: 'uppercase',
+                letterSpacing: '1px',
+                backdropFilter: 'blur(10px)'
+              }}
+              onMouseEnter={(e) => {
+                if (!isConnectingWallet) {
+                  e.target.style.transform = 'translateY(-3px)';
+                  e.target.style.boxShadow = '0 12px 40px rgba(0, 0, 0, 0.3)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.transform = 'translateY(0)';
+                e.target.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.2)';
+              }}
+            >
+              {isConnectingWallet ? 'Connecting Wallet...' : 'Connect Wallet'}
+            </button>
+            <p style={{
+              fontSize: '14px',
+              color: 'rgba(255, 255, 255, 0.7)',
+              marginTop: '15px',
+              textShadow: '0 2px 10px rgba(0, 0, 0, 0.3)'
+            }}>
+              Connect your wallet to play MonadSlither
+            </p>
                 <button
                   onClick={() => {
                     const networkInfo = `Network Name: Monad Testnet\nRPC URL: https://testnet-rpc.monad.xyz\nChain ID: 10143\nCurrency: MON\nBlock Explorer: https://testnet.monadexplorer.com`;
@@ -462,29 +462,29 @@ export default function OnboardingPage({ onStartGame }) {
                 >
                   Manual Network Setup
                 </button>
-              </div>
+          </div>
         ) : (
           <>
             {/* Connected Wallet Info */}
             {walletAddress && (
-              <div style={{
-                marginBottom: '20px',
-                padding: '15px 25px',
-                background: 'rgba(255, 255, 255, 0.1)',
-                borderRadius: '15px',
-                border: '1px solid rgba(255, 255, 255, 0.2)',
-                textAlign: 'center'
+            <div style={{
+              marginBottom: '20px',
+              padding: '15px 25px',
+              background: 'rgba(255, 255, 255, 0.1)',
+              borderRadius: '15px',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              textAlign: 'center'
+            }}>
+              <p style={{
+                fontSize: '14px',
+                color: 'rgba(255, 255, 255, 0.8)',
+                margin: '0 0 5px 0'
               }}>
-                <p style={{
-                  fontSize: '14px',
-                  color: 'rgba(255, 255, 255, 0.8)',
-                  margin: '0 0 5px 0'
-                }}>
-                  Wallet Connected
-                </p>
-                <p style={{
-                  fontSize: '12px',
-                  color: 'rgba(255, 255, 255, 0.6)',
+                Wallet Connected
+              </p>
+              <p style={{
+                fontSize: '12px',
+                color: 'rgba(255, 255, 255, 0.6)',
                   margin: '0 0 5px 0',
                   fontFamily: 'monospace'
                 }}>
@@ -496,7 +496,7 @@ export default function OnboardingPage({ onStartGame }) {
                 <p style={{
                   fontSize: '12px',
                   color: isOnMonadTestnet ? '#4CAF50' : '#FF9800',
-                  margin: 0,
+                margin: 0,
                   fontWeight: 'bold'
                 }}>
                   {isOnMonadTestnet ? '✓ Monad Testnet' : '⚠ Different Network'}
@@ -565,8 +565,8 @@ export default function OnboardingPage({ onStartGame }) {
                   margin: '5px 0 0 0'
                 }}>
                   Just enter your nickname to start playing!
-                </p>
-              </div>
+              </p>
+            </div>
             )}
             
             {/* Nickname Input */}
@@ -615,9 +615,9 @@ export default function OnboardingPage({ onStartGame }) {
                 fontWeight: 'bold',
                 border: 'none',
                 borderRadius: '30px',
-                background: nickname.trim()
-                  ? '#a0055d' 
-                  : 'rgba(255, 255, 255, 0.3)',
+                            background: nickname.trim() 
+              ? '#a0055d' 
+              : 'rgba(255, 255, 255, 0.3)',
                 color: 'white',
                 cursor: nickname.trim() ? 'pointer' : 'not-allowed',
                 boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',

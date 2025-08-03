@@ -199,12 +199,15 @@ export default function App() {
       position: 'fixed',
       top: 0,
       left: 0,
+      right: 0,
+      bottom: 0,
       width: '100vw', 
       height: '100vh',
       overflow: 'hidden',
       background: '#1a1a1a',
       margin: 0,
-      padding: 0
+      padding: 0,
+      zIndex: 1
     }}>
       <GameBoard gameState={gameState} />
       <Leaderboard leaderboard={gameState?.leaderboard || []} />

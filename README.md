@@ -42,7 +42,7 @@ A real-time multiplayer snake game built with React, Multisynq for synchronizati
    ```
 
 2. **Install dependencies**
-   ```bash
+```bash
    npm install
    ```
 
@@ -60,7 +60,7 @@ A real-time multiplayer snake game built with React, Multisynq for synchronizati
    ```
 
 4. **Start the development server**
-   ```bash
+```bash
    npm start
    ```
 

@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover" />
     <meta name="theme-color" content="#000000" />
     <meta name="description" content="MonadSlither - Multiplayer Snake Game" />
     <title>MonadSlither</title>
@@ -19,6 +19,31 @@
           console.log('Multisynq library loaded successfully:', window.Multisynq);
         }
       });
+      
+      // Fullscreen handling
+      function ensureFullscreen() {
+        // Prevent any scrolling
+        document.documentElement.style.overflow = 'hidden';
+        document.body.style.overflow = 'hidden';
+        
+        // Ensure the game takes full viewport
+        const root = document.getElementById('root');
+        if (root) {
+          root.style.position = 'fixed';
+          root.style.top = '0';
+          root.style.left = '0';
+          root.style.right = '0';
+          root.style.bottom = '0';
+          root.style.width = '100vw';
+          root.style.height = '100vh';
+          root.style.overflow = 'hidden';
+        }
+      }
+      
+      // Call on load and resize
+      window.addEventListener('load', ensureFullscreen);
+      window.addEventListener('resize', ensureFullscreen);
+      window.addEventListener('orientationchange', ensureFullscreen);
     </script>
     <style>
       /* Full screen styles */
@@ -28,6 +53,11 @@
         width: 100%;
         height: 100%;
         overflow: hidden;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
       }
       
       #root {
@@ -35,6 +65,58 @@
         height: 100%;
         margin: 0;
         padding: 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        overflow: hidden;
+      }
+      
+      /* Ensure full viewport coverage */
+      * {
+        box-sizing: border-box;
+      }
+      
+      /* Prevent any scrolling */
+      html {
+        overflow: hidden;
+        height: 100vh;
+        width: 100vw;
+      }
+      
+      body {
+        overflow: hidden;
+        height: 100vh;
+        width: 100vw;
+        position: fixed;
+      }
+      
+      /* Mobile browser specific fixes */
+      @media screen and (max-width: 768px) {
+        html, body {
+          height: 100vh;
+          width: 100vw;
+          position: fixed;
+          overflow: hidden;
+        }
+        
+        #root {
+          height: 100vh;
+          width: 100vw;
+          position: fixed;
+          overflow: hidden;
+        }
+      }
+      
+      /* iOS Safari specific fixes */
+      @supports (-webkit-touch-callout: none) {
+        html, body {
+          height: 100vh;
+          width: 100vw;
+          position: fixed;
+          overflow: hidden;
+        }
       }
     </style>
   </head>
